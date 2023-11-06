@@ -158,6 +158,7 @@ const NotificationItem = ({
 const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () => void }) => {
   const { t } = useTranslation('common');
   const [notiStore, setNotiStore] = useAtom(notificationAtom);
+
   const defaultActiveTab = notiStore.defaultNotiTab;
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
   const { data: userNoti, refresh: refreshNotiData } = useGetNotificationList({
@@ -200,7 +201,25 @@ const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () =>
   }, {});
 
   const detectDefaultTab = () => {
-    if (
+    if (lastPinetreeNoti?.time && !lastUserNoti?.time) {
+      setNotiStore((prev) => ({
+        ...prev,
+        defaultNotiTab: 'pinetreeNoti',
+        initNotiTab: true,
+      }));
+      if (!notiStore.initNotiTab) {
+        setCurTab('pinetreeNoti');
+      }
+    } else if (lastUserNoti?.time && !lastPinetreeNoti?.time) {
+      setNotiStore((prev) => ({
+        ...prev,
+        defaultNotiTab: 'userNoti',
+        initNotiTab: true,
+      }));
+      if (!notiStore.initNotiTab) {
+        setCurTab('userNoti');
+      }
+    } else if (
       lastUserNoti?.time &&
       lastPinetreeNoti?.time &&
       dayjs(lastUserNoti?.time).isBefore(dayjs(lastPinetreeNoti?.time))
@@ -213,7 +232,7 @@ const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () =>
       if (!notiStore.initNotiTab) {
         setCurTab('pinetreeNoti');
       }
-    } else {
+    } else if (lastUserNoti?.time && lastPinetreeNoti?.time) {
       setNotiStore((prev) => ({
         ...prev,
         defaultNotiTab: 'userNoti',
