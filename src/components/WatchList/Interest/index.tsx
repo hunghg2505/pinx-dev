@@ -9,6 +9,7 @@ import { SplideCustomWrap } from '@components/UI/Splide/Splide';
 import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
+import useSpildeOptions from '@hooks/useSplideOptions';
 import { socket } from 'src/socket/socket';
 
 import styles from './index.module.scss';
@@ -22,13 +23,6 @@ interface IProps {
   totalStock: number;
   onTrackingViewTickerInfo?: (stockCode: string, location: string) => void;
 }
-// const settings = {
-//   dots: false,
-//   infinite: false,
-//   speed: 500,
-//   slidesToShow: 5,
-//   slidesToScroll: 5,
-// };
 
 const Empty = dynamic(() => import('@components/UI/Empty'), {
   ssr: false,
@@ -46,6 +40,7 @@ const Interest = (props: IProps) => {
   } = props;
   const { t } = useTranslation('watchlist');
   const { isDesktop, isMobile } = useResponsive();
+  const { interestWatchlistSplideOptions } = useSpildeOptions();
 
   React.useEffect(() => {
     const getDataSocket = (message: any) => {
@@ -111,29 +106,13 @@ const Interest = (props: IProps) => {
           {isDesktop && interestStock?.length > 0 && (
             <>
               <SplideCustomWrap
-                className={classNames('', styles.slickSlider)}
-                options={{
-                  perPage: 5,
-                  pagination: false,
-                  arrows: false,
-                  gap: 10,
-                  breakpoints: {
-                    1024: {
-                      perPage: 3,
-                    },
-                    768: {
-                      perPage: 3,
-                    },
-                    480: {
-                      perPage: 2,
-                    },
-                  },
-                }}
+                options={interestWatchlistSplideOptions}
+                className={styles.interstSplide}
               >
                 {dataFormat?.map((item: IWatchListItem, index: number) => {
                   const isChangeColor = isChangeStockPrice && findIndex === index;
                   return (
-                    <SplideSlide key={`desktop-${item.id}`}>
+                    <SplideSlide key={`desktop-${index}`}>
                       <div className='relative min-h-[172px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px]'>
                         <InterestItem
                           onTrackingViewTickerInfo={onTrackingViewTickerInfo}

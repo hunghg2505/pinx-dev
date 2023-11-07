@@ -26,7 +26,7 @@ const ItemStock = ({
         sizes='24px'
         src={imageStock(data)}
         alt=''
-        className=' mr-[6px]  h-[24px] min-w-[24px] max-w-[24px]  overflow-hidden rounded-full border-2 border-solid border-white bg-[#ffffff] object-contain shadow-[0_2px_4px_rgba(0,0,0,0.10)]'
+        className=' mr-[6px] h-[24px] min-w-[24px] max-w-[24px] overflow-hidden rounded-full border-2 border-solid border-white bg-[#ffffff] object-contain shadow-[0_2px_4px_rgba(0,0,0,0.10)]'
       />
 
       <Text type='body-12-medium' color='neutral-9'>

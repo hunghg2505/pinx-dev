@@ -14,6 +14,7 @@ import { Skeleton } from '@components/UI/Skeleton';
 import { SplideCustomWrap } from '@components/UI/Splide/Splide';
 import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 import Text from '@components/UI/Text';
+import useSpildeOptions from '@hooks/useSplideOptions';
 import {
   HOME,
   PEOPLEINSPOTLIGHT,
@@ -63,11 +64,10 @@ const handleTrackingGetMoreInfo = (infoGroup: string, infoDetail: string) => {
 };
 
 const Explore = () => {
+  const { defaultSplideOptions } = useSpildeOptions();
   const { t } = useTranslation(['theme', 'explore']);
   const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
   const refClick: any = React.useRef(null);
-  const refSlideTheme: any = React.useRef();
-  const refSlidePinex: any = React.useRef();
 
   const { theme, refresh: refreshTheme, fetchTheme } = useGetTheme();
   const { keyWords, loading: loadingKeywords, mutate } = useGetKeyWordsTop();
@@ -236,86 +236,23 @@ const Explore = () => {
         <Text
           type='body-20-semibold'
           color='neutral-1'
-          className='mb-[16px] galaxy-max:text-[18px] '
+          className='mb-[16px] galaxy-max:text-[18px]'
         >
           {t('themes')}
         </Text>
 
-        {/* {loadingThemes ? (
-          <>
-            <div className='flex overflow-x-hidden'>
-              <Skeleton
-                rows={4}
-                wrapClassName='!flex-row gap-x-[16px]'
-                width={161}
-                height={252}
-                className='!rounded-[10px]'
-              />
-            </div>
-
-            <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
-          </>
-        ) : (
-          <> */}
         <div className='relative mb-[16px]'>
-          <div
-            onClick={() => {
-              refSlideTheme?.current?.splide.go('-2');
-            }}
-            className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayPrev.svg'
-              alt='Icon prev'
-              className='h-[16px] w-[7px] object-contain'
-            />
-          </div>
-
-          <div className='slideTheme max-w-[700px] overflow-hidden'>
-            <SplideCustomWrap
-              options={{
-                perPage: 4,
-                pagination: false,
-                arrows: false,
-                gap: 10,
-                breakpoints: {
-                  1024: {
-                    perPage: 3,
-                  },
-                  768: {
-                    perPage: 3,
-                  },
-                  480: {
-                    perPage: 2,
-                  },
-                },
-              }}
-              ref={refSlideTheme}
-            >
-              {theme?.map((theme: ITheme) => {
-                return (
-                  <SplideSlide key={theme.code}>
-                    <div className='w-[161px]'>
-                      <ThemesItem refresh={refreshTheme} theme={theme} />
-                    </div>
-                  </SplideSlide>
-                );
-              })}
-            </SplideCustomWrap>
-          </div>
-
-          <div
-            onClick={() => {
-              refSlideTheme?.current?.splide.go('+2');
-            }}
-            className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayNext.svg'
-              alt='Icon next'
-              className='h-[16px] w-[7px] object-contain'
-            />
-          </div>
+          <SplideCustomWrap options={defaultSplideOptions}>
+            {theme?.map((theme: ITheme, index: number) => {
+              return (
+                <SplideSlide key={index}>
+                  <div className='mr-[16px] w-[161px] mobile-max:mr-[16px]'>
+                    <ThemesItem refresh={refreshTheme} theme={theme} />
+                  </div>
+                </SplideSlide>
+              );
+            })}
+          </SplideCustomWrap>
         </div>
         <CustomLink href={THEME} onClick={() => handleTrackingGetMoreInfo('Theme', 'List theme')}>
           <ExploreButton>
@@ -324,8 +261,6 @@ const Explore = () => {
             </Text>
           </ExploreButton>
         </CustomLink>
-        {/* </>
-        )} */}
       </div>
 
       <div className='box-shadow card-style'>
@@ -438,69 +373,19 @@ const Explore = () => {
           {t('pinex_top_20')}
         </Text>
         <div className='relative mb-[16px]'>
-          <div
-            onClick={() => {
-              refSlidePinex?.current?.splide.go('-2');
-            }}
-            className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayPrev.svg'
-              alt='Icon prev'
-              className='h-[16px] w-[7px] object-contain'
-            />
-          </div>
-
-          <div className='pinexTop20 max-w-[700px]  overflow-hidden'>
-            <SplideCustomWrap
-              options={{
-                perPage: 4,
-                pagination: false,
-                arrows: false,
-                gap: 10,
-                breakpoints: {
-                  1024: {
-                    perPage: 3,
-                  },
-                  768: {
-                    perPage: 3,
-                  },
-                  480: {
-                    perPage: 2,
-                  },
-                },
-              }}
-              ref={refSlidePinex}
-            >
-              {optionTab?.map((item: any) => {
-                return (
-                  <SplideSlide key={item.value}>
-                    <PinexTop
-                      onClick={() =>
-                        handleTrackingViewListStock(t(`explore:${item.label}`), 'Top 20 pinex')
-                      }
-                      label={t(`explore:${item.label}`)}
-                      value={item.value}
-                      key={item.value}
-                    />
-                  </SplideSlide>
-                );
-              })}
-            </SplideCustomWrap>
-          </div>
-
-          <div
-            onClick={() => {
-              refSlidePinex?.current?.splide.go('+2');
-            }}
-            className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayNext.svg'
-              alt='Icon next'
-              className='h-[16px] w-[7px] object-contain'
-            />
-          </div>
+          <SplideCustomWrap options={defaultSplideOptions}>
+            {optionTab?.map((item: any) => (
+              <SplideSlide key={item.value}>
+                <PinexTop
+                  onClick={() =>
+                    handleTrackingViewListStock(t(`explore:${item.label}`), 'Top 20 pinex')
+                  }
+                  label={t(`explore:${item.label}`)}
+                  value={item.value}
+                />
+              </SplideSlide>
+            ))}
+          </SplideCustomWrap>
         </div>
 
         <CustomLink href={PINEX_TOP_20}>

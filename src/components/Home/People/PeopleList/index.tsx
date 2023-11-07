@@ -4,6 +4,8 @@ import { ISuggestionPeople } from '@components/Home/service';
 import { SplideCustomWrap } from '@components/UI/Splide/Splide';
 import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 
+// import PeopleLoading from './Skeleton';
+
 import ItemPeople from '../ItemPeople';
 
 interface IProps {
@@ -14,7 +16,19 @@ interface IProps {
 }
 const PeopleList = (props: IProps) => {
   const { data, refreshList, refresh } = props;
-
+  const splideOptions = {
+    type: 'slide',
+    perPage: 3,
+    speed: 500,
+    gap: '16px',
+    pagination: false,
+    arrows: false,
+    breakpoints: {
+      300: {
+        perPage: 2,
+      },
+    },
+  };
   // if (loading) {
   //   return (
   //     <div className='overflow-x-hidden whitespace-nowrap'>
@@ -28,35 +42,17 @@ const PeopleList = (props: IProps) => {
   // }
 
   return (
-    <div className='ml-[12px] max-w-[700px] overflow-hidden  '>
-      <SplideCustomWrap
-        options={{
-          perPage: 3,
-          pagination: false,
-          arrows: false,
-          gap: 10,
-          breakpoints: {
-            1024: {
-              perPage: 2,
-            },
-            768: {
-              perPage: 2,
-            },
-            480: {
-              perPage: 2,
-            },
-          },
-        }}
-      >
-        {data?.slice(0, 3)?.map((item: ISuggestionPeople) => {
-          return (
-            <SplideSlide key={`people-list-${item.id}`} className='outline-none'>
+    <SplideCustomWrap aria-label='My Favorite Images' options={splideOptions}>
+      {data?.slice(0, 3)?.map((item: ISuggestionPeople) => {
+        return (
+          <SplideSlide key={`people-list-${item.id}`}>
+            <div className='outline-none'>
               <ItemPeople refresh={refresh} data={item} refreshList={refreshList} />
-            </SplideSlide>
-          );
-        })}
-      </SplideCustomWrap>
-    </div>
+            </div>
+          </SplideSlide>
+        );
+      })}
+    </SplideCustomWrap>
   );
 };
 export default PeopleList;

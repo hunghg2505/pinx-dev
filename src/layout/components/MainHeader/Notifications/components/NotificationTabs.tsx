@@ -37,7 +37,6 @@ const EmptyNotification = () => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const NotificationItem = ({
   notification,
   onCloseNotiDropdown,
@@ -158,6 +157,7 @@ const NotificationItem = ({
 const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () => void }) => {
   const { t } = useTranslation('common');
   const [notiStore, setNotiStore] = useAtom(notificationAtom);
+
   const defaultActiveTab = notiStore.defaultNotiTab;
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
   const { data: userNoti, refresh: refreshNotiData } = useGetNotificationList({
@@ -199,9 +199,30 @@ const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () =>
     return null;
   }, {});
 
-
   const detectDefaultTab = () => {
-    if (lastUserNoti && lastPinetreeNoti && dayjs(lastUserNoti?.time).isBefore(dayjs(lastPinetreeNoti?.time))) {
+    if (lastPinetreeNoti?.time && !lastUserNoti?.time) {
+      setNotiStore((prev) => ({
+        ...prev,
+        defaultNotiTab: 'pinetreeNoti',
+        initNotiTab: true,
+      }));
+      if (!notiStore.initNotiTab) {
+        setCurTab('pinetreeNoti');
+      }
+    } else if (lastUserNoti?.time && !lastPinetreeNoti?.time) {
+      setNotiStore((prev) => ({
+        ...prev,
+        defaultNotiTab: 'userNoti',
+        initNotiTab: true,
+      }));
+      if (!notiStore.initNotiTab) {
+        setCurTab('userNoti');
+      }
+    } else if (
+      lastUserNoti?.time &&
+      lastPinetreeNoti?.time &&
+      dayjs(lastUserNoti?.time).isBefore(dayjs(lastPinetreeNoti?.time))
+    ) {
       setNotiStore((prev) => ({
         ...prev,
         defaultNotiTab: 'pinetreeNoti',
@@ -233,7 +254,7 @@ const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () =>
   }, [userNoti, pinetreeNoti]);
 
   return (
-    <Tabs activeKey={curTab} className={styles.tabLogin} onChange={handleChangeTab}>
+    <Tabs activeKey={curTab} className={styles.tabNoti} onChange={handleChangeTab}>
       <TabPane tab={t('latest')} key='userNoti'>
         {userNoti?.data?.length > 0 ? (
           <div className={styles.notiList}>

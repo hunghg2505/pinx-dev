@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-useless-spread */
-import React, { useRef } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
@@ -9,6 +9,7 @@ import { SplideCustomWrap } from '@components/UI/Splide/Splide';
 import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
+import useSpildeOptions from '@hooks/useSplideOptions';
 
 import styles from '../../index.module.scss';
 import ProductItem from '../ProductItem';
@@ -23,8 +24,8 @@ interface IStockProductsProps {
 
 const StockProducts = ({ stockDetail }: IStockProductsProps) => {
   const { t } = useTranslation(['stock', 'common']);
-  const refSlide = useRef<any>(null);
   const { isMobile } = useResponsive();
+  const { stockProductSplideOptions } = useSpildeOptions();
 
   if (!stockDetail?.data?.products || !stockDetail?.data?.products.length) {
     return <></>;
@@ -49,53 +50,16 @@ const StockProducts = ({ stockDetail }: IStockProductsProps) => {
         </div>
       ) : (
         <div className='relative'>
-          {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
-            <div
-              onClick={() => {
-                refSlide?.current?.splide.go('-1');
-              }}
-              className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-full transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-            >
-              <img
-                src='/static/icons/iconGrayPrev.svg'
-                alt='Icon prev'
-                className='h-[16px] w-[7px] object-contain'
-              />
-            </div>
-          )}
-
-          <div className='overflow-hidden'>
-            <SplideCustomWrap
-              options={{
-                perPage: 1,
-                pagination: false,
-                arrows: false,
-                gap: 10,
-              }}
-              ref={refSlide}
-            >
-              {stockDetail?.data?.products.map((item) => (
-                <SplideSlide key={item.name}>
-                  <ProductItem className='!mr-[14px]' data={item} />
-                </SplideSlide>
-              ))}
-            </SplideCustomWrap>
-          </div>
-
-          {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
-            <div
-              onClick={() => {
-                refSlide?.current?.splide.go('+1');
-              }}
-              className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-full translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-            >
-              <img
-                src='/static/icons/iconGrayNext.svg'
-                alt='Icon next'
-                className='h-[16px] w-[7px] object-contain'
-              />
-            </div>
-          )}
+          <SplideCustomWrap
+            options={stockProductSplideOptions}
+            className={styles.stockProductSplide}
+          >
+            {stockDetail?.data?.products.map((item, index) => (
+              <SplideSlide key={index}>
+                <ProductItem className='!mr-[14px]' data={item} />
+              </SplideSlide>
+            ))}
+          </SplideCustomWrap>
         </div>
       )}
     </div>

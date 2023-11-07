@@ -1,11 +1,10 @@
 import React from 'react';
 
-import classNames from 'classnames';
-
 import { ITheme } from '@components/Home/service';
 import { Skeleton } from '@components/UI/Skeleton';
 import { SplideCustomWrap } from '@components/UI/Splide/Splide';
 import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
+import useSpildeOptions from '@hooks/useSplideOptions';
 
 import styles from './index.module.scss';
 import { useGetTheme } from './service';
@@ -14,18 +13,10 @@ import ThemeItem from './ThemeItem';
 interface IProps {
   isEdit?: boolean;
 }
-// const settings = {
-//   dots: false,
-//   infinite: true,
-//   speed: 500,
-//   autoplaySpeed: 7000,
-//   slidesToShow: 1,
-//   slidesToScroll: 1,
-//   autoplay: true,
-// };
 const Themes = (props: IProps) => {
   const { isEdit = false } = props;
   const { theme, loading } = useGetTheme();
+  const { watchlistThemeSplideOptions } = useSpildeOptions();
 
   if (loading) {
     return (
@@ -40,18 +31,12 @@ const Themes = (props: IProps) => {
       {!isEdit && (
         <div className='max-w-[100%]'>
           <SplideCustomWrap
-            className={classNames('', styles.sliderTheme)}
-            options={{
-              perPage: 1,
-              pagination: false,
-              arrows: false,
-              gap: 10,
-              autoplay: true,
-            }}
+            options={watchlistThemeSplideOptions}
+            className={styles.watchlistThemeSplide}
           >
-            {theme?.map((item: ITheme) => {
+            {theme?.map((item: ITheme, index: number) => {
               return (
-                <SplideSlide key={`them-${item.code}`}>
+                <SplideSlide key={`them-${index}`}>
                   <ThemeItem data={item} />
                 </SplideSlide>
               );

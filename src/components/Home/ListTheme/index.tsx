@@ -8,6 +8,7 @@ import CustomLink from '@components/UI/CustomLink';
 import { SplideCustomWrap } from '@components/UI/Splide/Splide';
 import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 import Text from '@components/UI/Text';
+import useSpildeOptions from '@hooks/useSplideOptions';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { THEME } from 'src/constant/route';
 
@@ -23,7 +24,7 @@ const ListTheme = () => {
 
   const { isLogin } = useLogin();
   const { theme, refresh, fetchTheme } = useGetTheme();
-  const refSlide: any = React.useRef();
+  const { defaultSplideOptions } = useSpildeOptions();
 
   const { ref, inView } = useInView();
   const checkRef = useRef(false);
@@ -50,62 +51,15 @@ const ListTheme = () => {
   return (
     <div ref={ref}>
       <div className='relative h-[252px] '>
-        <div
-          onClick={() => {
-            refSlide?.current?.splide.go('-2');
-          }}
-          className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-        >
-          <img
-            src='/static/icons/iconGrayPrev.svg'
-            alt='Icon prev'
-            className='h-[16px] w-[7px] object-contain'
-            loading='lazy'
-          />
-        </div>
-        <div className='slideTheme max-w-[700px] overflow-hidden'>
-          <SplideCustomWrap
-            options={{
-              perPage: 4,
-              pagination: false,
-              arrows: false,
-              gap: 10,
-              breakpoints: {
-                1024: {
-                  perPage: 3,
-                },
-                768: {
-                  perPage: 3,
-                },
-                480: {
-                  perPage: 2,
-                },
-              },
-            }}
-            ref={refSlide}
-          >
-            {theme?.map((item: ITheme) => {
-              return (
-                <SplideSlide key={`themeHome-${item.code}`}>
-                  <ThemesItem theme={item} isLogin={isLogin} refresh={refresh} />
-                </SplideSlide>
-              );
-            })}
-          </SplideCustomWrap>
-        </div>
-        <div
-          onClick={() => {
-            refSlide?.current?.splide.go('+2');
-          }}
-          className='absolute -right-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-        >
-          <img
-            src='/static/icons/iconGrayNext.svg'
-            alt='Icon next'
-            className='h-[16px] w-[7px] object-contain'
-            loading='lazy'
-          />
-        </div>
+        <SplideCustomWrap options={defaultSplideOptions}>
+          {theme?.map((item: ITheme, index: number) => {
+            return (
+              <SplideSlide key={`themeHome-${index}`}>
+                <ThemesItem theme={item} isLogin={isLogin} refresh={refresh} />
+              </SplideSlide>
+            );
+          })}
+        </SplideCustomWrap>
       </div>
 
       <CustomLink href={THEME}>

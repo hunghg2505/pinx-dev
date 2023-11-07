@@ -15,6 +15,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@splidejs/react-splide": "^0.7.12",
     "ahooks": "^3.5.1",
     "brainless-token-manager": "^1.2.6",
     "browser-image-compression": "^2.0.2",
